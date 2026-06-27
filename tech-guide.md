@@ -1,4 +1,4 @@
-# Claude Code 가이드 슬라이드 — 기술 문서 (v1.0)
+# Claude Code 가이드 슬라이드 — 기술 문서 (v1.1)
 
 > 작성일: 2026-06-27
 > 대상 파일: `claude-code-guide.html` (+ 범용 템플릿 `slide-template.html`)
@@ -33,12 +33,12 @@
 
 ```
 class/
-├─ claude-code-guide.html     ← 실제 발표 슬라이드 (19장, 단일 파일)
+├─ claude-code-guide.html     ← 실제 발표 슬라이드 (24장, 단일 파일)
 ├─ claude-code-guide.pdf      ← 위 파일을 그대로 인쇄해 만든 배포용 PDF
 ├─ slide-template.html        ← claude-code-guide.html에서 내용만 비운 범용 템플릿 (8장 예시)
 ├─ slide-template-guide.md/.pdf ← 템플릿 사용법 (클래스 목록, 애니메이션 규칙)
 ├─ tech-guide.md/.pdf         ← 지금 이 문서
-└─ Sample_PORTFOLIO_TEMPLATE_GUIDE.md ← 포트폴리오 실습용 별도 가이드(A2 슬라이드에서 참조)
+└─ Sample_PORTFOLIO_TEMPLATE_GUIDE.md ← 포트폴리오 실습용 별도 가이드(실습 1 슬라이드에서 참조)
 ```
 
 ---
@@ -51,20 +51,23 @@ class/
 </head>
 <body>
   <div id="deck"><div class="stage">     ← 16:9 비율 고정 무대
-    <div class="slide active">...</div>  ← SLIDE 00 표지
-    <div class="slide">...</div>         ← SLIDE 01~09 본편
-    <div class="slide">...</div>         ← SLIDE 10 실전 사례
-    <div class="slide">...</div>         ← APPENDIX A1~A5 부록
-    <div class="slide">...</div>         ← SLIDE 11 다음 단계
-    <div class="slide">...</div>         ← 마무리 인사
+    <div class="slide active">...</div>  ← SLIDE 00 표지 (그룹 없음)
+    <div class="slide" data-group="main">...</div>   ← SLIDE 01~10 본편 (10/10까지 — 다음 단계로 마감)
+    <div class="slide">...</div>         ← 실습 구분 장 (그룹 없음)
+    <div class="slide" data-group="practice">...</div> ← 실습 1~2 (포트폴리오 / 프레젠테이션 만들기)
+    <div class="slide">...</div>         ← Appendix 구분 장 (그룹 없음)
+    <div class="slide" data-group="appendix">...</div> ← APPENDIX A1~A7 부록
+    <div class="slide">...</div>         ← 마무리 인사 (그룹 없음)
   </div></div>
   <div id="progress"></div>              ← 상단 진행률 바
   <div id="nav">...</div>                ← 우측 상단 이전/다음 버튼
-  <script> ... 내비게이션 + 진행률 + 페이지번호 자동계산 ... </script>
+  <script> ... 내비게이션 + 진행률 + 그룹별 페이지번호 자동계산 ... </script>
 </body>
 ```
 
-19개 `<div class="slide">`가 `.stage` 안에 **겹쳐서(`position:absolute`)** 쌓여 있고, 한 번에 하나만 `.active` 클래스로 보인다 — 스크롤형이 아니라 **"카드 갈아끼우기형(deck-style)"** 구조다. 슬라이드 순서는 HTML에 적힌 순서 그대로다.
+24개 `<div class="slide">`가 `.stage` 안에 **겹쳐서(`position:absolute`)** 쌓여 있고, 한 번에 하나만 `.active` 클래스로 보인다 — 스크롤형이 아니라 **"카드 갈아끼우기형(deck-style)"** 구조다. 슬라이드 순서는 HTML에 적힌 순서 그대로다.
+
+본편(main)·실습(practice)·부록(appendix)은 `data-group` 속성으로 구분된 **서로 독립적인 그룹**이다(각각 10개·2개·8개). 표지·구분장·마무리처럼 `data-group`이 없는 슬라이드는 페이지 번호가 전체 절대 위치(`n/24`)로, 그룹이 있는 슬라이드는 **자기 그룹 안에서만** 번호가 매겨진다(본편은 10/10으로 끝나고, 부록은 다시 1/8부터 시작) — 자세한 구현은 5-3 참고.
 
 ---
 
@@ -154,10 +157,22 @@ function restartAnim(slide) {
 
 CSS 애니메이션은 같은 클래스를 다시 추가해도 "이미 끝난 상태"로 인식해 재생되지 않는다. `animation:none`을 줬다가 `el.offsetHeight`를 읽어 강제로 리플로우(reflow)를 발생시킨 뒤 다시 비워주면, 브라우저가 애니메이션을 처음부터 새로 재생한다 — 뒤로 갔다가 다시 그 슬라이드로 와도 카드가 다시 순서대로 나타나는 이유다.
 
-### 5-3. 페이지 번호 자동 주입 — DOM에 직접 새겨넣기
+### 5-3. 페이지 번호 자동 주입 — 그룹별 독립 카운터
 
 ```js
+// 본편(main)·실습(practice)·부록(appendix)은 그룹 안에서만 번호를 센다
+['main', 'practice', 'appendix'].forEach(group => {
+  const groupSlides = Array.from(slides).filter(s => s.dataset.group === group);
+  groupSlides.forEach((slide, i) => {
+    const label = (i + 1) + ' / ' + groupSlides.length;
+    const sn = slide.querySelector('.sn');
+    // 이미 자체 "1/2" 페이지 표시가 있는 슬라이드(지침 전문 등)는 중복 표시를 피해 건너뜀
+    if (sn && !sn.textContent.includes('/')) sn.insertAdjacentHTML('beforeend', ' <span class="pn">· ' + label + '</span>');
+  });
+});
+// 표지/구분장/마무리처럼 그룹이 없는 슬라이드는 전체 절대 위치를 보여줌
 slides.forEach((slide, i) => {
+  if (slide.dataset.group) return;
   const label = (i + 1) + ' / ' + total;
   const sn = slide.querySelector('.sn');
   if (sn) sn.insertAdjacentHTML('beforeend', ' <span class="pn">· ' + label + '</span>');
@@ -165,7 +180,9 @@ slides.forEach((slide, i) => {
 });
 ```
 
-우측 상단 `#nav`의 카운터는 **화면 전용**(JS로 매번 갱신)이라 인쇄하면 사라진다. 그래서 페이지 번호를 **콘텐츠 안(`.sn`)에 직접 텍스트로 삽입**해두면, 화면에서도 보이고 인쇄/PDF에서도 똑같이 남는다 — "화면용 내비게이션"과 "인쇄에도 남는 번호"를 분리해서 설계한 부분이다. 슬라이드를 추가/삭제해도 `total`이 자동 재계산되어 번호를 손으로 고칠 필요가 없다.
+우측 상단 `#nav`의 카운터는 **화면 전용**(JS로 매번 갱신)이라 인쇄하면 사라진다. 그래서 페이지 번호를 **콘텐츠 안(`.sn`)에 직접 텍스트로 삽입**해두면, 화면에서도 보이고 인쇄/PDF에서도 똑같이 남는다.
+
+처음에는 전체를 한 줄로(`(i+1)+'/'+total`) 세는 단일 카운터였는데, 본편·실습·부록을 분리하면서 **`data-group` 속성 + 그룹별 필터링**으로 바꿨다. 그룹이 없는 슬라이드(표지/구분장/마무리)는 여전히 전체 절대 위치를 쓴다. 추가로, 환경설정 지침처럼 슬라이드 자체에 이미 `1/2` 같은 수동 페이지 표시가 있는 경우 자동 번호를 한 번 더 붙이면 `1/2 · 3/8`처럼 분수가 두 번 겹쳐 보이는 문제가 있었다 — `sn.textContent.includes('/')`로 이미 표시가 있는 슬라이드는 자동 주입을 건너뛰게 해서 해결했다. 슬라이드를 추가/삭제해도 각 그룹의 길이가 자동 재계산되어 번호를 손으로 고칠 필요가 없다.
 
 ### 5-4. 터치 스와이프
 
@@ -203,8 +220,10 @@ document.addEventListener('touchend', e => {
 - **표 첫 번째 열이 넓어지는 문제** — 그리드/테이블은 칸을 균등 분배하므로, 짧은 라벨 열은 `white-space:nowrap; width:1%;`로 강제로 줄여야 함
 - **`emph-blink`를 한 슬라이드에 여러 곳 쓰면 효과가 상쇄된다** — 슬라이드당 1곳으로 제한
 - **인쇄 시 용지 크기를 사용자가 직접 A4 등으로 바꾸면 `@page` 커스텀 크기가 무시될 수 있다** — CSS만으로 100% 보장은 안 되므로, 배포 전 실제 인쇄 미리보기로 한 번 확인 필요
-- **부록(Appendix)에서 본편 슬라이드를 가리키는 텍스트(예: "Appendix A6 확인")는, 슬라이드를 삭제/재배치할 때 함께 깨지기 쉽다** — 슬라이드 순서를 바꾼 뒤에는 다른 슬라이드가 그 슬라이드를 참조하고 있는지 전체 검색이 필요
-- **디자인 토큰(CSS 변수) 없이 색상을 인라인으로 직접 써서**, 톤을 일괄로 바꾸려면 값을 일일이 찾아 바꿔야 한다 — 색상 종류가 더 늘어날 프로젝트라면 `:root` 변수로 옮기는 게 유지보수에 유리함 (현재는 슬라이드 19장 규모라 실익이 크지 않아 보류)
+- **부록(Appendix)을 가리키는 텍스트(예: "Appendix A5 확인")는, 슬라이드를 삭제/재배치/재번호할 때 함께 깨지기 쉽다** — 이 프로젝트에서 어펜딕스 순서를 4번 정도 바꾸는 동안 실제로 여러 번 끊긴 참조가 나왔다. 순서를 바꾼 뒤에는 `grep -n "Appendix A"`로 전체 검색해 번호가 다 맞는지 확인하는 게 거의 필수 단계였다
+- **그룹별(`data-group`) 페이지 번호와 슬라이드 자체의 수동 페이지 표시("1/2" 등)가 같은 슬라이드에 같이 있으면 분수가 겹쳐 보인다** — 자동 주입 로직에서 `.sn` 텍스트에 이미 `/`가 있으면 건너뛰도록 예외 처리 필요 (5-3 참고)
+- **타이틀(`.h2`) 폰트 크기를 슬라이드마다 다르게(예: 2.85vw~5vw) 쓰면 한눈에 봤을 때 위계가 흐트러진 것처럼 보인다** — 길어서 안 들어가는 제목은 폰트를 줄이기보다 **텍스트를 줄여서 같은 크기를 유지**하는 쪽이 전체 통일감에 더 유리했다
+- **디자인 토큰(CSS 변수) 없이 색상을 인라인으로 직접 써서**, 톤을 일괄로 바꾸려면 값을 일일이 찾아 바꿔야 한다 — 색상 종류가 더 늘어날 프로젝트라면 `:root` 변수로 옮기는 게 유지보수에 유리함 (현재는 슬라이드 24장 규모라 실익이 크지 않아 보류)
 
 ---
 
@@ -216,4 +235,11 @@ document.addEventListener('touchend', e => {
 - 인쇄/PDF 내보내기(`@media print` + 16:9 커스텀 용지) 및 화면·인쇄 공용 페이지 번호 자동 주입 시스템 구축
 - 위 패턴을 일반화해 재사용 템플릿(`slide-template.html`) + 사용 가이드 분리
 
-> 다음 업데이트부터는 위 형식으로 `v1.1`, `v1.2` ... 항목을 이 절 아래에 추가한다.
+### v1.1 — 2026-06-27 (구조 개편)
+- 슬라이드 19장 → **24장**으로 확장: 실습 섹션(포트폴리오/프레젠테이션 만들기 2장) + GitHub·Vercel 단독 가이드 2장 신설
+- 단일 전체 번호 시스템을 **`data-group` 기반 그룹별 독립 카운터**(본편 10/10, 실습 1/2, 부록 1/8)로 교체 — 5-3 참고
+- 부록·실습 진입부에 "구분 장"(divider slide) 패턴 추가 — `.h1` 공용 클래스를 재사용해 표지와 톤을 맞춤
+- 본편/부록 전체 타이틀(`.h2`) 폰트 크기를 5vw로 통일, 길어서 안 맞는 제목은 폰트 대신 텍스트를 줄여 한 줄 유지
+- 모바일 뷰포트(390×844 기준 CDP 디바이스 에뮬레이션으로 검증) 및 보안 항목(외부 리소스·인라인 스크립트 개수·디버그 코드 잔존 여부) 최종 점검 완료
+
+> 다음 업데이트부터는 위 형식으로 `v1.2`, `v1.3` ... 항목을 이 절 아래에 추가한다.
