@@ -147,7 +147,7 @@ html, body { width: 100%; height: 100%; background: #0a0a0a; overflow: hidden;
   font-size: 0.92vw; color:rgba(255,255,255,0.56); }
 
 /* 비교 테이블 — 헤더/셀 모두 가운데 정렬 */
-.tbl { width: 100%; border-collapse: collapse; }
+.tbl { width: 100%; border-collapse: collapse; table-layout: fixed; }
 .tbl th { font-size: 1.19vw; font-weight: 600; color: #EF9F27;
   background: rgba(186,117,23,0.08); padding: 1.3% 2%; text-align: center;
   border-bottom: 0.5px solid rgba(186,117,23,0.2); }
@@ -155,7 +155,7 @@ html, body { width: 100%; height: 100%; background: #0a0a0a; overflow: hidden;
   padding: 1.3% 2%; border-bottom: 0.5px solid rgba(255,255,255,0.04);
   vertical-align: middle; line-height: 1.5; text-align: center; }
 .tbl tr:hover td { background: rgba(186,117,23,0.03); }
-.tbl td:first-child, .tbl th:first-child { white-space: nowrap; width: 1%; }
+.tbl td:first-child, .tbl th:first-child { white-space: nowrap; width: 12%; }
 .tbl td:first-child { color:rgba(255,255,255,0.75); font-weight: 600; }
 .bdg { background: rgba(186,117,23,0.12); color: #D4881A;
   font-size: 1.06vw; padding: 0.2vw 0.9vw; border-radius: 1vw; white-space: nowrap; }
@@ -314,7 +314,7 @@ table.reveal-row tr { opacity: 0; }
 </div>
 
 <!-- ══ SLIDE 01 — 왜 쓰는가 ══ -->
-<div class="slide">
+<div class="slide" data-group="main">
   <div class="si">
     <div class="sn">SLIDE 01</div>
     <div class="h2" style="font-size:5vw;">Claude Code, <em>왜 쓰는가?</em></div>
@@ -349,7 +349,7 @@ table.reveal-row tr { opacity: 0; }
 </div>
 
 <!-- ══ SLIDE 02 — 준비하기 ══ -->
-<div class="slide">
+<div class="slide" data-group="main">
   <div class="si">
     <div class="sn">SLIDE 02</div>
     <div class="h2" style="font-size:5vw;">Claude Code, <em>준비하기</em></div>
@@ -461,7 +461,7 @@ table.reveal-row tr { opacity: 0; }
 </div>
 
 <!-- ══ SLIDE 03 — VS Code 연결 ══ -->
-<div class="slide">
+<div class="slide" data-group="main">
   <div class="si">
     <div class="sn">SLIDE 03</div>
     <div class="h2" style="font-size:5vw;">VS Code와 <em>연결하기</em></div>
@@ -544,7 +544,7 @@ table.reveal-row tr { opacity: 0; }
 </div>
 
 <!-- ══ SLIDE 04 — bkit ══ -->
-<div class="slide">
+<div class="slide" data-group="main">
   <div class="si">
     <div class="sn">SLIDE 04</div>
     <div class="h2" style="font-size:5vw;">bkit이 <em>뭔데?</em></div>
@@ -601,7 +601,7 @@ table.reveal-row tr { opacity: 0; }
 </div>
 
 <!-- ══ SLIDE 05 — 명령어 3개 ══ -->
-<div class="slide">
+<div class="slide" data-group="main">
   <div class="si">
     <div class="sn">SLIDE 05</div>
     <div class="h2" style="font-size:5vw;">핵심 명령어 <em>3개만 기억해</em></div>
@@ -672,7 +672,7 @@ table.reveal-row tr { opacity: 0; }
 </div>
 
 <!-- ══ SLIDE 06 — 전체 흐름 ══ -->
-<div class="slide">
+<div class="slide" data-group="main">
   <div class="si">
     <div class="sn">SLIDE 06</div>
     <div class="h2" style="font-size:5vw;">전체 작업 흐름 <em>한눈에</em></div>
@@ -752,7 +752,7 @@ table.reveal-row tr { opacity: 0; }
 </div>
 
 <!-- ══ SLIDE 07 — 메모리 관리 ══ -->
-<div class="slide">
+<div class="slide" data-group="main">
   <div class="si">
     <div class="sn">SLIDE 07</div>
     <div class="h2" style="font-size:5vw;">메모리가 꽉 차기 전에 <em>저장하라</em></div>
@@ -817,7 +817,7 @@ table.reveal-row tr { opacity: 0; }
 </div>
 
 <!-- ══ SLIDE 08 — 포트폴리오 실전 ══ -->
-<div class="slide">
+<div class="slide" data-group="main">
   <div class="si">
     <div class="sn">SLIDE 08</div>
     <div class="h2" style="font-size:5vw;">실전 예시 — <em>포트폴리오 만들기</em></div>
@@ -883,7 +883,7 @@ table.reveal-row tr { opacity: 0; }
 </div>
 
 <!-- ══ SLIDE 09 — 팁 모음 ══ -->
-<div class="slide">
+<div class="slide" data-group="main">
   <div class="si">
     <div class="sn">SLIDE 09</div>
     <div class="h2" style="font-size:5vw;">알아두면 좋은 <em>팁 모음</em></div>
@@ -922,7 +922,7 @@ table.reveal-row tr { opacity: 0; }
 </div>
 
 <!-- ══ SLIDE 10 — 실전 사례: Chat vs Code ══ -->
-<div class="slide">
+<div class="slide" data-group="main">
   <div class="si">
     <div class="sn">SLIDE 10</div>
     <div class="h2" style="font-size:3.3vw;">Chat은 <em>말로 끝나고</em>, Code는 <em>확인으로 끝난다</em></div>
@@ -973,8 +973,56 @@ table.reveal-row tr { opacity: 0; }
 </div>
 
 
-<!-- ══ APPENDIX A1 — 제품군 비교 ══ -->
+<!-- ══ SLIDE 11 — 다음 단계 ══ -->
+<div class="slide" data-group="main">
+  <div class="si">
+    <div class="sn">SLIDE 11</div>
+    <div class="h2" style="font-size:4.6vw;">이론은 끝났다 — <em>지금 바로 시작하기</em></div>
+    <div class="hsub" style="font-size:1.27vw;">오늘 배운 걸로 손으로 직접 해볼 시간</div>
+    <div class="sb">
+      <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2.5%; margin-top:1.8%;">
+
+        <div style="background:linear-gradient(135deg,rgba(186,117,23,0.22) 0%,rgba(186,117,23,0.06) 100%); border:0.5px solid rgba(186,117,23,0.42); border-radius:0.55vw; padding:3.5% 5%; display:flex; align-items:center; gap:3%;">
+          <div style="font-size:0.82vw; color:rgba(255,255,255,0.36); letter-spacing:3px; flex-shrink:0;">지금 할 일 딱 하나</div>
+          <div style="font-size:1.5vw; font-weight:700; color:#EF9F27; flex:1;">새 폴더 하나 만들고 <span style="color:#F0EAE0;">/plan-plus</span> 입력해보기</div>
+        </div>
+
+        <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:0;">
+          <div style="font-size:0.82vw; color:#BA7517; letter-spacing:3px; margin-bottom:1%;">더 깊이 알고 싶다면 — 참고 자료</div>
+          <div style="display:flex; align-items:center; gap:2.5%; padding:1.4% 0; border-bottom:0.5px solid rgba(255,255,255,0.04);">
+            <span style="color:rgba(186,117,23,0.4); font-size:0.9vw;">—</span>
+            <div style="font-size:1.25vw; color:rgba(255,255,255,0.62);">포트폴리오 실습 프롬프트 전문은 <strong style="color:#F0EAE0;">Appendix A2</strong>에 그대로 있음</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:2.5%; padding:1.4% 0; border-bottom:0.5px solid rgba(255,255,255,0.04);">
+            <span style="color:rgba(186,117,23,0.4); font-size:0.9vw;">—</span>
+            <div style="font-size:1.25vw; color:rgba(255,255,255,0.62);">환경설정 지침 전문은 <strong style="color:#F0EAE0;">Appendix A3</strong>에서 복사해서 붙여넣기</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:2.5%; padding:1.4% 0;">
+            <span style="color:rgba(186,117,23,0.4); font-size:0.9vw;">—</span>
+            <div style="font-size:1.25vw; color:rgba(255,255,255,0.62);">비용이 걱정되면 <strong style="color:#F0EAE0;">Appendix A5</strong> 확인</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="tip"><strong>핵심</strong>&nbsp; 완벽한 계획보다 첫 폴더를 만드는 게 먼저다 — 나머지는 Claude Code가 같이 풀어간다</div>
+  </div>
+</div>
+
+<!-- ══ APPENDIX DIVIDER — 부록 구분 장 ══ -->
 <div class="slide">
+  <div class="glow"></div>
+  <div class="si">
+    <div class="sb" style="justify-content:center; align-items:center; text-align:center;">
+      <div style="font-size:0.92vw; font-weight:500; color:#BA7517; letter-spacing:4px; margin-bottom:2.8%;">REFERENCE</div>
+      <div class="h1" style="margin-bottom:2.2%;">Appendix</div>
+      <div style="font-size:1.25vw; color:rgba(255,255,255,0.42);">본편에서 다 못한 이야기 — 필요할 때 펼쳐보는 참고 자료</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ APPENDIX A1 — 제품군 비교 ══ -->
+<div class="slide" data-group="appendix">
   <div class="si">
     <div class="sn">APPENDIX A1</div>
     <div class="h2" style="font-size:5vw;">Claude 제품군 <em>상세 비교</em></div>
@@ -992,7 +1040,7 @@ table.reveal-row tr { opacity: 0; }
         <tr><td>파일 접근</td><td>업로드 방식</td><td>폴더 직접 공유</td><td>폴더 직접 읽기·쓰기·삭제</td></tr>
         <tr><td>난이도</td><td><span class="bdg">쉬움</span></td><td><span class="bdg">보통</span></td><td><span class="bdg">다소 어려움</span></td></tr>
         <tr><td>추천 모델</td><td>Sonnet</td><td>Sonnet / Opus</td><td>Sonnet (기본) / Opus (복잡한 작업)</td></tr>
-        <tr><td>bkit 활용</td><td>해당 없음</td><td>해당 없음</td><td class="emph-blink" style="color:#EF9F27; font-weight:700;">강력 추천 — /plan-plus, /pdca, /gap-detector</td></tr>
+        <tr><td>bkit 활용</td><td>해당 없음</td><td>해당 없음</td><td class="emph-blink" style="color:#EF9F27; font-weight:700;">강력 추천 — bkit 명령어 3종</td></tr>
       </table>
     </div>
     <div class="tip"><strong>핵심</strong>&nbsp; 결국 대부분의 실전 작업은 Claude Code(VS Code 연동) 한 곳에서 끝난다</div>
@@ -1000,7 +1048,7 @@ table.reveal-row tr { opacity: 0; }
 </div>
 
 <!-- ══ APPENDIX A2 — 포트폴리오 템플릿 가이드 ══ -->
-<div class="slide">
+<div class="slide" data-group="appendix">
   <div class="si">
     <div class="sn">APPENDIX A2</div>
     <div class="h2" style="font-size:4.2vw;">포트폴리오 <em>Claude Code로 실습하기</em></div>
@@ -1086,7 +1134,7 @@ table.reveal-row tr { opacity: 0; }
 </div>
 
 <!-- ══ APPENDIX A3 — 환경설정 지침 ══ -->
-<div class="slide">
+<div class="slide" data-group="appendix">
   <div class="si">
     <div class="sn">APPENDIX A3 — 1 / 2</div>
     <div class="h2" style="font-size:2.85vw;">Claude 환경설정 지침 — <em>왜 필요하고 어디에 넣나</em></div>
@@ -1158,7 +1206,7 @@ table.reveal-row tr { opacity: 0; }
 </div>
 
 <!-- ══ APPENDIX A3-2 — 지침 전문 ══ -->
-<div class="slide">
+<div class="slide" data-group="appendix">
   <div class="si">
     <div class="sn">APPENDIX A3 — 2 / 2</div>
     <div class="h2" style="font-size:4.5vw;">환경설정 지침 <em>전문</em></div>
@@ -1207,7 +1255,7 @@ table.reveal-row tr { opacity: 0; }
 </div>
 
 <!-- ══ APPENDIX A4 — 마지막 팁 ══ -->
-<div class="slide">
+<div class="slide" data-group="appendix">
   <div class="si">
     <div class="sn">APPENDIX A4</div>
     <div class="h2" style="font-size:5vw;">Claude Code를 <em>잘 쓰는 법</em></div>
@@ -1277,44 +1325,8 @@ table.reveal-row tr { opacity: 0; }
   </div>
 </div>
 
-<!-- ══ SLIDE 11 — 다음 단계 ══ -->
-<div class="slide">
-  <div class="si">
-    <div class="sn">SLIDE 11</div>
-    <div class="h2" style="font-size:4.6vw;">이론은 끝났다 — <em>지금 바로 시작하기</em></div>
-    <div class="hsub" style="font-size:1.27vw;">오늘 배운 걸로 손으로 직접 해볼 시간</div>
-    <div class="sb">
-      <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2.5%; margin-top:1.8%;">
-
-        <div style="background:linear-gradient(135deg,rgba(186,117,23,0.22) 0%,rgba(186,117,23,0.06) 100%); border:0.5px solid rgba(186,117,23,0.42); border-radius:0.55vw; padding:3.5% 5%; display:flex; align-items:center; gap:3%;">
-          <div style="font-size:0.82vw; color:rgba(255,255,255,0.36); letter-spacing:3px; flex-shrink:0;">지금 할 일 딱 하나</div>
-          <div style="font-size:1.5vw; font-weight:700; color:#EF9F27; flex:1;">새 폴더 하나 만들고 <span style="color:#F0EAE0;">/plan-plus</span> 입력해보기</div>
-        </div>
-
-        <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:0;">
-          <div style="font-size:0.82vw; color:#BA7517; letter-spacing:3px; margin-bottom:1%;">더 깊이 알고 싶다면 — 참고 자료</div>
-          <div style="display:flex; align-items:center; gap:2.5%; padding:1.4% 0; border-bottom:0.5px solid rgba(255,255,255,0.04);">
-            <span style="color:rgba(186,117,23,0.4); font-size:0.9vw;">—</span>
-            <div style="font-size:1.25vw; color:rgba(255,255,255,0.62);">포트폴리오 실습 프롬프트 전문은 <strong style="color:#F0EAE0;">Appendix A2</strong>에 그대로 있음</div>
-          </div>
-          <div style="display:flex; align-items:center; gap:2.5%; padding:1.4% 0; border-bottom:0.5px solid rgba(255,255,255,0.04);">
-            <span style="color:rgba(186,117,23,0.4); font-size:0.9vw;">—</span>
-            <div style="font-size:1.25vw; color:rgba(255,255,255,0.62);">환경설정 지침 전문은 <strong style="color:#F0EAE0;">Appendix A3</strong>에서 복사해서 붙여넣기</div>
-          </div>
-          <div style="display:flex; align-items:center; gap:2.5%; padding:1.4% 0;">
-            <span style="color:rgba(186,117,23,0.4); font-size:0.9vw;">—</span>
-            <div style="font-size:1.25vw; color:rgba(255,255,255,0.62);">비용이 걱정되면 <strong style="color:#F0EAE0;">Appendix A5</strong> 확인</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-    <div class="tip"><strong>핵심</strong>&nbsp; 완벽한 계획보다 첫 폴더를 만드는 게 먼저다 — 나머지는 Claude Code가 같이 풀어간다</div>
-  </div>
-</div>
-
 <!-- ══ APPENDIX A5 — 비용 안심 ══ -->
-<div class="slide">
+<div class="slide" data-group="appendix">
   <div class="si">
     <div class="sn">APPENDIX A5</div>
     <div class="h2" style="font-size:4.2vw;">AI운영비용이 걱정된다면 — <em>생각보다 저렴하다</em></div>
@@ -1349,15 +1361,11 @@ table.reveal-row tr { opacity: 0; }
 <!-- ══ SLIDE END — Thank You ══ -->
 <div class="slide">
   <div class="glow"></div>
-  <div class="si">
-    <div class="sb" style="justify-content:center; align-items:center; text-align:center;">
+  <div class="si" style="padding:4% 7.5%; justify-content:center;">
+    <div class="sb" style="flex:none; justify-content:center; align-items:center; text-align:center;">
       <div style="font-size:0.92vw; font-weight:500; color:#BA7517; letter-spacing:4px; margin-bottom:2.8%;">CLAUDE CODE GUIDE · 2026</div>
       <div class="h1" style="margin-bottom:2.2%;">Thank <em>You</em></div>
       <div style="font-size:1.25vw; color:rgba(255,255,255,0.48);">질문은 언제든 편하게 — 같이 만들어봅시다</div>
-    </div>
-    <div class="cv-foot">
-      <div class="cv-foot-l"><strong>발표자 이름</strong><span>소속 / 직책</span></div>
-      <div class="cv-foot-r"><div class="date">2026. 6. 26</div><div class="ver">ver 0.1</div></div>
     </div>
   </div>
 </div>
@@ -1383,8 +1391,19 @@ table.reveal-row tr { opacity: 0; }
   updateProgress();
 
   // 슬라이드 페이지 번호를 콘텐츠 안에 직접 새겨넣음 — 화면 내비게이션과 무관하게
-  // HTML 그대로 인쇄/PDF로 내보내도 동일한 번호가 보이도록 함
+  // HTML 그대로 인쇄/PDF로 내보내도 동일한 번호가 보이도록 함.
+  // 본편(main)과 부록(appendix)은 서로 다른 그룹이라 번호를 각자 따로 센다 (예: 본편 11/11, 부록 1/6).
+  ['main', 'appendix'].forEach(group => {
+    const groupSlides = Array.from(slides).filter(s => s.dataset.group === group);
+    groupSlides.forEach((slide, i) => {
+      const label = (i + 1) + ' / ' + groupSlides.length;
+      const sn = slide.querySelector('.sn');
+      if (sn) sn.insertAdjacentHTML('beforeend', ' <span class="pn">· ' + label + '</span>');
+    });
+  });
+  // 표지/구분장/마무리 인사처럼 그룹이 없는 슬라이드는 전체 절대 위치를 보여줌
   slides.forEach((slide, i) => {
+    if (slide.dataset.group) return;
     const label = (i + 1) + ' / ' + total;
     const sn = slide.querySelector('.sn');
     if (sn) {
